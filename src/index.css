@@ -80,14 +80,17 @@ body {
 }
 
 .todo-description:not([read-only]) {
-  color: red;
+  text-shadow: 0 0 0px black;
+  color: black;
   box-shadow: inset 0 0 0.1em 0.1em lightgreen;
 }
 
 .todo-description:read-only {
   background-color: transparent;
   box-shadow: none;
-  color: black;
+  color: transparent;
+  text-shadow: 0 0 0px black;
+  outline: none;
 }
 
 .todo-description:active {

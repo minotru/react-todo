@@ -5,9 +5,15 @@ export default class ToDoListItem extends React.Component {
         super(props);
         this.props = props;
         this.state = {
-            isEditing: this.props.isEditing | false,
-            description: props.description
+            isEditing: false,
         };
+
+        this.onSave = this.onSave.bind(this);
+    }
+
+    onSave() {
+        this.setState({isEditing: false});
+        this.props.handleUpdate({description: this.state.description});
     }
 
     render() {
@@ -25,7 +31,7 @@ export default class ToDoListItem extends React.Component {
         );
         const SAVE_BUTTON = (
             <button className="todo-button todo-button--save"
-                onClick={() => this.props.handleEdit(this.state.description)}>
+                onClick = {this.onSave}>
                 <i className="material-icons">save</i>
             </button>
         );
@@ -34,15 +40,17 @@ export default class ToDoListItem extends React.Component {
             <li className="todo-list-item">
                 <i className={"todo-done-state " +
                     (this.props.isDone ? "todo-done-state--done" : "todo-done-state--undone")}
-                    onClick={() => this.props.handleState()}>
+                    onClick={() => this.props.handleUpdate({isDone: !this.props.isDone})}>
                     {this.props.isDone ? DONE_ICON : UNDONE_ICON}
+                
                 </i>
                 <input
                     type="text"
                     className="todo-description"
                     readOnly={!this.state.isEditing}
-                    onChange={(event) => { this.setState({ description: event.value }) }}
-                    value={this.state.isEditing ? this.state.description : this.props.description}
+                    onChange={(event) => { this.setState({ description: event.value })}}
+                    onKeyPress = {(e) => {if (e.keyCode === 13) this.onSave()}}
+                    value = {this.state.isEditing ? this.state.description : this.props.description}
                 />
                 <div className="todo-button-panel">
                     {this.state.isEditing ? SAVE_BUTTON : EDIT_BUTTON}

@@ -11,31 +11,20 @@ export default class ToDoList extends React.Component {
         }
     }
 
-    handleRemove(itemIndex) {
-        const items = this.state.items;
+    handleItemUpdate(itemIndex) {
+        return (item) => {
+            const items = this.state.items.slice();
+            items.splice(itemIndex, 1, Object.assign(items[itemIndex], item));
+            this.setState({items:items});
+        }
+    }
+
+    handleItemRemove(itemIndex) {
+        const items = this.state.items.slice();
         items.splice(itemIndex, 1);
         this.setState({
             items: items
         });
-    }
-
-    handleState(itemIndex) {
-        const items = this.state.items;
-        items[itemIndex].isDone = !this.state.items[itemIndex].isDone;
-        this.setState({
-            items: items
-        });
-    }
-
-    handleEdit(itemIndex) {
-        return (description) => {
-            const items = this.state.items;
-            items[itemIndex].description = description;
-            // items[itemIndex].isEditing = false;
-            this.setState({
-                items: items
-            });
-        }
     }
     
     render() {
@@ -48,9 +37,8 @@ export default class ToDoList extends React.Component {
                             description = {item.description}
                             isDone = {item.isDone}
                             key = {index.toString()}
-                            handleRemove = {() => this.handleRemove(index)}
-                            handleState = {() => this.handleState(index)}
-                            handleEdit = {this.handleEdit(index)}
+                            handleUpdate = {this.handleItemUpdate(index)}
+                            handleRemove = {() => this.handleItemRemove(index)}
                         />
                     ))}
                 </ul>
