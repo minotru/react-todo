@@ -26,6 +26,17 @@ export default class ToDoList extends React.Component {
             items: items
         });
     }
+
+    handleEdit(itemIndex) {
+        return (description) => {
+            const items = this.state.items;
+            items[itemIndex].description = description;
+            // items[itemIndex].isEditing = false;
+            this.setState({
+                items: items
+            });
+        }
+    }
     
     render() {
         return (
@@ -39,6 +50,7 @@ export default class ToDoList extends React.Component {
                             key = {index.toString()}
                             handleRemove = {() => this.handleRemove(index)}
                             handleState = {() => this.handleState(index)}
+                            handleEdit = {this.handleEdit(index)}
                         />
                     ))}
                 </ul>
